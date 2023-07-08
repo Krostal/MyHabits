@@ -285,12 +285,14 @@ class HabitViewController: UIViewController {
         notificationCenter.removeObserver(self)
     }
     
+//    private func createNewHabit() {
+//
+//    }
+    
     @objc func setTime() {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a"
         timeField.text = formatter.string(from: datePicker.date)
-//        let time = formatter.string(from: datePicker.date)
-//        return time
     }
     
     @objc func willShowKeyboard(_ notification: NSNotification) {
@@ -304,7 +306,14 @@ class HabitViewController: UIViewController {
     }
     
     @objc func save(_ sender: UIBarButtonItem) {
-        // сохранить изменения и закрыть окно
+        // cоздаем привычку, сохраняем ее в HabitStore и закрываем окно
+        let newHabit = Habit(name: "\(String(describing: habitName.text))",
+                             date: datePicker.date,
+                             color: (colorPicker.backgroundColor ?? .systemRed)
+                             )
+        let store = HabitsStore.shared
+        store.habits.append(newHabit)
+        
         dismiss(animated: true)
     }
     
