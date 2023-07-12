@@ -30,7 +30,7 @@ class InfoViewController: UIViewController {
     
     private func setupNavigationBar() {
         
-        self.title = "Информация"
+        self.navigationItem.title = "Информация"
         
         navigationController?.navigationBar.backgroundColor = UIColor(named: "LightGrayColor")
     }

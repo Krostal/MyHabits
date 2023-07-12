@@ -23,11 +23,12 @@ class TabBarController: UITabBarController {
         self.viewControllers = [habitsTabNavigationController, infoTabNavigationController]
         
         let item1 = UITabBarItem(title: "Привычки", image: UIImage(named: "habits_tab_icon"), tag: 0)
-        
+
         let item2 = UITabBarItem(title: "Информация", image: UIImage(systemName: "info.circle.fill"), tag: 1)
         
         habitsTabNavigationController.tabBarItem = item1
         infoTabNavigationController.tabBarItem = item2
+
     }
     
 }

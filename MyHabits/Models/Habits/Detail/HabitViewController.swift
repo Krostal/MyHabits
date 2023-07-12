@@ -6,7 +6,20 @@
 //
 import UIKit
 
-class HabitViewController: UIViewController {
+final class HabitViewController: UIViewController {
+    
+    let store = HabitsStore.shared
+    var currentHabit: Habit?
+    
+    init(currentHabit: Habit? = nil) {
+        self.currentHabit = currentHabit
+        super .init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        self.currentHabit = Habit(name: "", date: Date(), color: .white)
+        super.init(coder: coder)
+    }
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -21,6 +34,16 @@ class HabitViewController: UIViewController {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.backgroundColor = .white
         return contentView
+    }()
+    
+    lazy var deleteButton: UIButton = {
+        let deleteButton = UIButton()
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        deleteButton.setTitle("Удалить привычку", for: .normal)
+        deleteButton.setTitleColor(.systemRed, for: .normal)
+        deleteButton.titleLabel?.font = .systemFont(ofSize: 17, weight: .regular)
+        deleteButton.addTarget(self, action: #selector(deleteThisHabit(_:)), for: .touchUpInside)
+        return deleteButton
     }()
     
     private lazy var titleLabel: UILabel = {
@@ -40,7 +63,6 @@ class HabitViewController: UIViewController {
         habitName.textColor = .black
         habitName.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         habitName.autocapitalizationType = .none
-        
         habitName.autocorrectionType = UITextAutocorrectionType.no
         habitName.keyboardType = UIKeyboardType.default
         habitName.returnKeyType = UIReturnKeyType.done
@@ -49,26 +71,6 @@ class HabitViewController: UIViewController {
         habitName.delegate = self
         return habitName
     }()
-    
-    //    private lazy var habitsName: UITextView = {
-    //        let habitsName = UITextView()
-    //        habitsName.translatesAutoresizingMaskIntoConstraints = false
-    //        habitsName.contentInsetAdjustmentBehavior = .automatic
-    //        habitsName.text = "Бегать по утрам, спать 8 часов и т.п."
-    //        habitsName.textColor = UIColor(named: "BlueColor")
-    //        habitsName.font = .systemFont(ofSize: 17, weight: .semibold)
-    //        habitsName.backgroundColor = .systemPink
-    //        habitsName.isEditable = true
-    //        habitsName.autocapitalizationType = .none
-    //        habitsName.clearsContextBeforeDrawing = true
-    //        habitsName.delegate = self
-    //
-    //        habitsName.autocorrectionType = UITextAutocorrectionType.no
-    //        habitsName.keyboardType = UIKeyboardType.default
-    //        habitsName.returnKeyType = UIReturnKeyType.done
-    //
-    //        return habitsName
-    //    }()
     
     private lazy var colorTitle: UILabel = {
         let colorTitle = UILabel()
@@ -90,15 +92,6 @@ class HabitViewController: UIViewController {
         
         return colorPicker
     }()
-    
-    //    private lazy var colorPicker: UIView = {
-    //        let colorPicker = UIView()
-    //        colorPicker.translatesAutoresizingMaskIntoConstraints = false
-    //        colorPicker.backgroundColor = UIColor(named: "OrangeColor")
-    //        colorPicker.clipsToBounds = true
-    //        colorPicker.layer.cornerRadius = 15
-    //        return colorPicker
-    //    }()
     
     private lazy var timeTitle: UILabel = {
         let timeTitle = UILabel()
@@ -144,46 +137,58 @@ class HabitViewController: UIViewController {
     private lazy var timeField: UITextField = {
         let timeField = UITextField()
         timeField.translatesAutoresizingMaskIntoConstraints = false
-        timeField.placeholder = "set time"
+        timeField.placeholder = "укажи время"
         timeField.textColor = UIColor(named: "PurpleColor")
         timeField.font = .systemFont(ofSize: 17, weight: .regular)
         
         return timeField
     }()
-    
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         addSubviews()
+        setupView()
         setupConstraints()
         setupContentOfScrollView()
         setupNavigationBar()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         setupKeyboardObservers()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         removeKeyboardObservers()
     }
     
     private func addSubviews() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        scrollView.addSubview(titleLabel)
-        scrollView.addSubview(habitName)
-        scrollView.addSubview(colorTitle)
-        scrollView.addSubview(colorPicker)
-        scrollView.addSubview(timeTitle)
-        scrollView.addSubview(dayAndTimeField)
-        scrollView.addSubview(datePicker)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(habitName)
+        contentView.addSubview(colorTitle)
+        contentView.addSubview(colorPicker)
+        contentView.addSubview(timeTitle)
+        contentView.addSubview(dayAndTimeField)
+        contentView.addSubview(datePicker)
+        contentView.addSubview(deleteButton)
+    }
+    
+    private func setupView() {
+        if let currentHabit = self.currentHabit {
+            self.title = "Править"
+            habitName.text = currentHabit.name
+            colorPicker.backgroundColor = currentHabit.color
+            datePicker.date = currentHabit.date
+            deleteButton.isEnabled = true
+        } else {
+            self.title = "Создать"
+            deleteButton.isHidden = true
+        }
     }
     
     private func setupConstraints() {
@@ -198,8 +203,9 @@ class HabitViewController: UIViewController {
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
     }
     
@@ -240,16 +246,19 @@ class HabitViewController: UIViewController {
             datePicker.topAnchor.constraint(equalTo: timeField.bottomAnchor, constant: 15),
             datePicker.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             datePicker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            datePicker.heightAnchor.constraint(equalToConstant: 216),
             
-        ])
+            deleteButton.heightAnchor.constraint(equalToConstant: 22),
+            deleteButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            deleteButton.heightAnchor.constraint(equalToConstant: 22),
+            
+            ])
         
-        datePicker.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2).isActive = true
+        deleteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
+        
     }
     
     private func setupNavigationBar() {
-        
-        self.title = "Создать"
-        
         
         self.navigationController?.navigationBar.backgroundColor = .clear
         self.navigationController?.navigationBar.tintColor = UIColor(named: "PurpleColor")
@@ -285,9 +294,35 @@ class HabitViewController: UIViewController {
         notificationCenter.removeObserver(self)
     }
     
-//    private func createNewHabit() {
-//
-//    }
+    private func showAlert() {
+        let alert = UIAlertController(
+            title: "Удалить привычку",
+            message: "Вы хотите удалить привычку \"\(currentHabit?.name ?? "Имя привычки не определено")\"?",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Удалить", style: .destructive, handler: { [weak self] action in
+            if let currentHabit = self?.currentHabit {
+                let indexOfHabitInStore = self?.store.habits.firstIndex(of: currentHabit)
+                if indexOfHabitInStore != nil {
+                    self?.store.habits.remove(at: indexOfHabitInStore!)
+                    self?.store.save()
+                    
+                    if let habitsVC = self?.presentingViewController as? UITabBarController {
+                        if let navigationVC = habitsVC.viewControllers?.first as? UINavigationController {
+                            navigationVC.popToRootViewController(animated: true)
+                        }
+                    }
+                }
+            }
+            self?.dismiss(animated: true)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+        
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
     
     @objc func setTime() {
         let formatter = DateFormatter()
@@ -307,18 +342,30 @@ class HabitViewController: UIViewController {
     
     @objc func save(_ sender: UIBarButtonItem) {
         // cоздаем привычку, сохраняем ее в HabitStore и закрываем окно
-        let newHabit = Habit(name: "\(String(describing: habitName.text))",
+        let newHabit = Habit(name: habitName.text ?? "Error!",
                              date: datePicker.date,
                              color: (colorPicker.backgroundColor ?? .systemRed)
-                             )
-        let store = HabitsStore.shared
-        store.habits.append(newHabit)
+        )
         
-        dismiss(animated: true)
+        if deleteButton.isHidden == true {
+            store.habits.append(newHabit)
+            dismiss(animated: true)
+            
+        } else {
+            if let currentHabit = self.currentHabit {
+                let indexOfHabitInStore = store.habits.firstIndex(of: currentHabit)
+                if indexOfHabitInStore != nil {
+                    store.habits[indexOfHabitInStore!] = newHabit
+                }
+            }
+            store.save()
+            
+            dismiss(animated: true)
+        }
     }
     
     @objc func cancelAndBack(_ sender: UIBarButtonItem) {
-        dismiss(animated: true)
+            dismiss(animated: true)
     }
     
     @objc func colorPickerPressed(_ sender: UIButton) {
@@ -326,6 +373,10 @@ class HabitViewController: UIViewController {
         picker.selectedColor = self.colorPicker.backgroundColor!
         picker.delegate = self
         self.present(picker, animated: true)
+    }
+    
+    @objc func deleteThisHabit(_ sender: UIButton) {
+        showAlert()
     }
     
 }
@@ -338,23 +389,6 @@ extension HabitViewController: UITextFieldDelegate {
         return false
     }
 }
-
-//extension HabitViewController: UITextViewDelegate {
-//    func textViewDidChange(_ textView: UITextView) {
-//        let size = CGSize(width: habitsName.frame.size.width, height: .infinity)
-//        let estimatedSize = habitsName.sizeThatFits(size)
-//
-//        guard habitsName.contentSize.height < 100.0 else { habitsName.isScrollEnabled = true; return }
-//
-//        habitsName.isScrollEnabled = false
-//        habitsName.constraints.forEach { (constraint) in
-//            if constraint.firstAttribute == .height {
-//                constraint.constant = estimatedSize.height
-//            }
-//        }
-//    }
-//
-//}
             
 extension HabitViewController: UIColorPickerViewControllerDelegate {
     
