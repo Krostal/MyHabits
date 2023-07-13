@@ -1,9 +1,3 @@
-//
-//  HabitViewController.swift
-//  MyHabits
-//
-//  Created by Konstantin Tarasov on 07.07.2023.
-//
 import UIKit
 
 final class HabitViewController: UIViewController {
@@ -355,7 +349,7 @@ final class HabitViewController: UIViewController {
     }
     
     @objc func save(_ sender: UIBarButtonItem) {
-        // cоздаем привычку, сохраняем ее в HabitStore и закрываем окно
+
         let newHabit = Habit(name: habitName.text ?? "Error!",
                              date: datePicker.date,
                              color: (colorPicker.backgroundColor ?? .systemRed)

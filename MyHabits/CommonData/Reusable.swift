@@ -1,10 +1,3 @@
-//
-//  Reusable.swift
-//  MyHabits
-//
-//  Created by Konstantin Tarasov on 08.07.2023.
-//
-
 import UIKit
 
 protocol ReusableView: AnyObject {

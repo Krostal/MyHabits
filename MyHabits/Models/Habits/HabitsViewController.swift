@@ -1,10 +1,3 @@
-//
-//  HabitsViewController.swift
-//  MyHabits
-//
-//  Created by Konstantin Tarasov on 07.07.2023.
-//
-
 import UIKit
 
 class HabitsViewController: UIViewController {
@@ -29,14 +22,13 @@ class HabitsViewController: UIViewController {
         setupCollectionView()
         setupLayouts()
         setupNavigationBar()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.prefersLargeTitles = true
         collectionView.reloadData()
-        collectionView.refreshControl?.endRefreshing()
+        
     }
     
     private func setupCollectionView() {
@@ -44,7 +36,6 @@ class HabitsViewController: UIViewController {
         collectionView.backgroundColor = UIColor(named: "LightGrayColor")
         collectionView.dataSource = self
         collectionView.delegate = self
-       
     }
 
     private func setupLayouts() {
@@ -70,11 +61,16 @@ class HabitsViewController: UIViewController {
         navigationItem.rightBarButtonItem = barButtonItem
     }
 
-    @objc func addNewHabit(_ sender: UIBarButtonItem) {
+    @objc private func addNewHabit(_ sender: UIBarButtonItem) {
         let habitViewController = HabitViewController.init()
         let navigationVC = UINavigationController(rootViewController: habitViewController)
         navigationVC.modalPresentationStyle = .fullScreen
         present(navigationVC, animated: true)
+    }
+    
+    @objc private func reloadTableView() {
+        collectionView.reloadData()
+        collectionView.refreshControl?.endRefreshing()
     }
     
 }
@@ -135,7 +131,6 @@ extension HabitsViewController: UICollectionViewDataSource {
             let habit = HabitsStore.shared.habits[indexPath.row-1]
             let habitDetailsVC = HabitDetailsViewController(habit: habit)
             self?.navigationController?.pushViewController(habitDetailsVC, animated: true)
-            habitDetailsVC.self.title = cell.habitName.text
             
         }
         

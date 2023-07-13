@@ -1,10 +1,3 @@
-//
-//  ProgressCollectionViewCell.swift
-//  MyHabits
-//
-//  Created by Konstantin Tarasov on 08.07.2023.
-//
-import Foundation
 import UIKit
 
 class ProgressCollectionViewCell: UICollectionViewCell {

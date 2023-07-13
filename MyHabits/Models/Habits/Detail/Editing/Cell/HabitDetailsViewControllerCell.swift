@@ -1,10 +1,3 @@
-//
-//  HabitDetailsViewControllerCell.swift
-//  MyHabits
-//
-//  Created by Konstantin Tarasov on 09.07.2023.
-//
-
 import UIKit
 
 class HabitDetailsViewControllerCell: UITableViewCell {

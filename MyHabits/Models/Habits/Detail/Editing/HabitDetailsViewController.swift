@@ -1,10 +1,3 @@
-//
-//  HabitDetailsViewController.swift
-//  MyHabits
-//
-//  Created by Konstantin Tarasov on 09.07.2023.
-//
-
 import UIKit
 
 final class HabitDetailsViewController: UIViewController {
@@ -41,11 +34,13 @@ final class HabitDetailsViewController: UIViewController {
         setupTableView()
         setupConstraints()
         setupNavigationBar()
+        self.navigationItem.title = habit.name
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        self.navigationItem.title = habit.name
     }
     
     private func setupTableView() {

@@ -1,10 +1,3 @@
-//
-//  Information.swift
-//  MyHabits
-//
-//  Created by Konstantin Tarasov on 07.07.2023.
-//
-
 import UIKit
 
 struct Info {

@@ -1,10 +1,3 @@
-//
-//  HabitCollectionViewCell.swift
-//  MyHabits
-//
-//  Created by Konstantin Tarasov on 08.07.2023.
-//
-
 import UIKit
 
 typealias Action = () -> Void?
@@ -143,9 +136,7 @@ final class HabitCollectionViewCell: UICollectionViewCell {
     private func trackHabit() {
         
         if let habit = self.habit {
-            if trackMarker.isSelected == true {
-                print("Привычку можно отметить один раз за день")
-            } else {
+            if trackMarker.isSelected == false {
                 trackMarker.isSelected = true
                 HabitsStore.shared.track(habit)
                 habitCounter.text = "Счетчик: \(habit.trackDates.count)"
