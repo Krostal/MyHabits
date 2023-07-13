@@ -113,8 +113,10 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         clikableContainer.addGestureRecognizer(gesture)
     }
     
-    func setup(with habit: Habit) {
+    func setup(with habit: Habit, progressCell: ProgressCollectionViewCell) {
         self.habit = habit
+        self.progressCell = progressCell
+        
         habitName.text = habit.name
         habitName.textColor = habit.color
         habitTime.text = habit.dateString
@@ -124,6 +126,7 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         if habit.isAlreadyTakenToday {
             trackMarker.isSelected = true
         }
+        
         
     }
     
@@ -140,10 +143,11 @@ final class HabitCollectionViewCell: UICollectionViewCell {
                 trackMarker.isSelected = true
                 HabitsStore.shared.track(habit)
                 habitCounter.text = "Счетчик: \(habit.trackDates.count)"
-                progressCell?.update()
             }
         }
-        
+        if let progressCell = self.progressCell {
+            progressCell.update()
+        }
     }
     
 }

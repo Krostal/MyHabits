@@ -28,7 +28,8 @@ class HabitsViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.prefersLargeTitles = true
         collectionView.reloadData()
-        
+        collectionView.refreshControl?.endRefreshing()
+
     }
     
     private func setupCollectionView() {
@@ -66,11 +67,6 @@ class HabitsViewController: UIViewController {
         let navigationVC = UINavigationController(rootViewController: habitViewController)
         navigationVC.modalPresentationStyle = .fullScreen
         present(navigationVC, animated: true)
-    }
-    
-    @objc private func reloadTableView() {
-        collectionView.reloadData()
-        collectionView.refreshControl?.endRefreshing()
     }
     
 }
@@ -135,7 +131,9 @@ extension HabitsViewController: UICollectionViewDataSource {
         }
         
         let habits = HabitsStore.shared.habits[indexPath.row-1]
-        cell.setup(with: habits)
+        if let progressCell = self.progressCell {
+            cell.setup(with: habits, progressCell: progressCell)
+        }
         return cell
     }
     
