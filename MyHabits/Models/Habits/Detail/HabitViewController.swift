@@ -324,6 +324,20 @@ final class HabitViewController: UIViewController {
         }
     }
     
+    private func infoAlert() {
+        
+        let alert = UIAlertController(title: "Введите имя привычки", message: "", preferredStyle: .actionSheet)
+        
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+            alert.dismiss(animated: true)
+        }
+        
+    }
+    
     @objc func setTime() {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a"
@@ -348,19 +362,29 @@ final class HabitViewController: UIViewController {
         )
         
         if deleteButton.isHidden == true {
-            store.habits.append(newHabit)
-            dismiss(animated: true)
+            if newHabit.name == "" {
+                infoAlert()
+            } else {
+                store.habits.append(newHabit)
+                dismiss(animated: true)
+            }
             
         } else {
             if let currentHabit = self.currentHabit {
                 let indexOfHabitInStore = store.habits.firstIndex(of: currentHabit)
                 if indexOfHabitInStore != nil {
-                    store.habits[indexOfHabitInStore!] = newHabit
+                    
+                    if newHabit.name == "" {
+                        infoAlert()
+                    } else {
+                        store.habits[indexOfHabitInStore!].name = newHabit.name
+                        store.habits[indexOfHabitInStore!].color = newHabit.color
+                        store.habits[indexOfHabitInStore!].date = newHabit.date
+                        store.save()
+                        dismiss(animated: true)
+                    }
                 }
             }
-            store.save()
-            
-            dismiss(animated: true)
         }
     }
     

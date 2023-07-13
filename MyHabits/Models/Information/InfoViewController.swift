@@ -11,7 +11,7 @@ class InfoViewController: UIViewController {
     
     fileprivate let infoDataSource = Info.show()
     
-    static let infoTableView: UITableView = {
+    private lazy var infoTableView: UITableView = {
         let infoView = UITableView()
         infoView.translatesAutoresizingMaskIntoConstraints = false
         infoView.backgroundColor = .white
@@ -36,28 +36,23 @@ class InfoViewController: UIViewController {
     }
     
     private func setupTableView() {
-        view.addSubview(Self.infoTableView)
-        Self.infoTableView.delegate = self
-        Self.infoTableView.dataSource = self
-        Self.infoTableView.rowHeight = UITableView.automaticDimension
-        Self.infoTableView.refreshControl?.addTarget(self, action: #selector(reloadTableView), for: .valueChanged)
-        
+        view.addSubview(infoTableView)
+        infoTableView.delegate = self
+        infoTableView.dataSource = self
+        infoTableView.rowHeight = UITableView.automaticDimension
     }
     
     private func setupConstraints() {
         let safeAreaGuide = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            Self.infoTableView.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
-            Self.infoTableView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor),
-            Self.infoTableView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
-            Self.infoTableView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
+            infoTableView.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
+            infoTableView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor),
+            infoTableView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
+            infoTableView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
         ])
     }
-    
-    @objc func reloadTableView() {
-        Self.infoTableView.reloadData()
-    }
+
 }
 
 extension InfoViewController: UITableViewDelegate, UITableViewDataSource {

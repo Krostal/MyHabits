@@ -4,10 +4,12 @@
 //
 //  Created by Konstantin Tarasov on 08.07.2023.
 //
-
+import Foundation
 import UIKit
 
 class ProgressCollectionViewCell: UICollectionViewCell {
+    
+    var habit: Habit?
     
     private lazy var motivationLabel: UILabel = {
         let motivationLabel = UILabel()
@@ -78,12 +80,15 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         setupLayouts()
     }
     
-    func setup() {
-        motivationLabel.text = "Всё получится!"
-        
-        progressLabel.text = "\(Int(HabitsStore.shared.todayProgress))%"
-        
+    func update() {
+        progressLabel.text = HabitsStore.shared.todayProgress.formatted(.percent)
         progressBar.progress = HabitsStore.shared.todayProgress
+        switch progressBar.progress {
+        case 1:
+            motivationLabel.text = "Ты молодец! Так держать!"
+        default:
+            motivationLabel.text = "У тебя получится!"
+        }
 
     }
 

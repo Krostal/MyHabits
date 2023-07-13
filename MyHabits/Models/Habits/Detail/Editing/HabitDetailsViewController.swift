@@ -13,7 +13,8 @@ final class HabitDetailsViewController: UIViewController {
     let store = HabitsStore.shared
     
     var dates: [Date] {
-        return store.dates.sorted(by: { $0 > $1 })
+        let sortedDates = store.dates.sorted(by: >)
+        return sortedDates
     }
     
     init(habit: Habit) {
@@ -26,7 +27,7 @@ final class HabitDetailsViewController: UIViewController {
             super.init(coder: coder)
     }
     
-    static let tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = UIColor(named: "LightGrayColor")
@@ -40,13 +41,17 @@ final class HabitDetailsViewController: UIViewController {
         setupTableView()
         setupConstraints()
         setupNavigationBar()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     private func setupTableView() {
-        view.addSubview(Self.tableView)
-        Self.tableView.delegate = self
-        Self.tableView.dataSource = self
+        view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     
@@ -55,10 +60,10 @@ final class HabitDetailsViewController: UIViewController {
         let safeAreaGuide = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            Self.tableView.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
-            Self.tableView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor),
-            Self.tableView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
-            Self.tableView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
         ])
     }
     
@@ -89,7 +94,7 @@ extension HabitDetailsViewController: UITableViewDelegate, UITableViewDataSource
             return UITableViewCell()
         }
         cell.configure(dates[indexPath.row])
-        if HabitsStore.shared.habit(habit, isTrackedIn: habit.date) == true {
+        if store.habit(self.habit, isTrackedIn: dates[indexPath.row]) == true {
             cell.accessoryType = .checkmark
         }
         return cell

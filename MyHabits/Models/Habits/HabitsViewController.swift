@@ -37,7 +37,6 @@ class HabitsViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         collectionView.reloadData()
         collectionView.refreshControl?.endRefreshing()
-        
     }
     
     private func setupCollectionView() {
@@ -45,6 +44,7 @@ class HabitsViewController: UIViewController {
         collectionView.backgroundColor = UIColor(named: "LightGrayColor")
         collectionView.dataSource = self
         collectionView.delegate = self
+       
     }
 
     private func setupLayouts() {
@@ -99,7 +99,7 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
+        UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -124,7 +124,7 @@ extension HabitsViewController: UICollectionViewDataSource {
             }
             
             progressCell = cell
-            cell.setup()
+            cell.update()
             return cell
         }
     

@@ -14,6 +14,12 @@ final class HabitCollectionViewCell: UICollectionViewCell {
     var habit: Habit?
     var progressCell: ProgressCollectionViewCell?
     
+    private lazy var clikableContainer: UIView = {
+        let container = UIView()
+        container.translatesAutoresizingMaskIntoConstraints = false
+        return container
+    }()
+    
     lazy var habitName: UILabel = {
         let habitName = UILabel()
         habitName.translatesAutoresizingMaskIntoConstraints = false
@@ -45,6 +51,8 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         trackMarker.layer.borderWidth = 3
         trackMarker.layer.cornerRadius = 19
         trackMarker.addTarget(self, action: #selector(trackHabit), for: .touchUpInside)
+        trackMarker.setBackgroundImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
+        trackMarker.setBackgroundImage(UIImage(systemName: ""), for: .normal)
         return trackMarker
     }()
     
@@ -54,32 +62,36 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 8
         contentView.isUserInteractionEnabled = true
-        
     }
     
     private func setupSubviews() {
-        contentView.addSubview(habitName)
-        contentView.addSubview(habitTime)
-        contentView.addSubview(habitCounter)
+        contentView.addSubview(clikableContainer)
+        clikableContainer.addSubview(habitName)
+        clikableContainer.addSubview(habitTime)
+        clikableContainer.addSubview(habitCounter)
         contentView.addSubview(trackMarker)
     }
     
     private func setupLayouts() {
         NSLayoutConstraint.activate([
-            habitName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            habitName.widthAnchor.constraint(equalToConstant: 220),
-            habitName.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            clikableContainer.topAnchor.constraint(equalTo: contentView.topAnchor),
+            clikableContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            clikableContainer.widthAnchor.constraint(equalToConstant: 220),
+            
+            habitName.topAnchor.constraint(equalTo: clikableContainer.topAnchor, constant: 20),
+            habitName.leadingAnchor.constraint(equalTo: clikableContainer.leadingAnchor, constant: 20),
+            habitName.widthAnchor.constraint(equalTo: clikableContainer.widthAnchor),
             
             habitTime.topAnchor.constraint(equalTo: habitName.bottomAnchor, constant: 4),
-            habitTime.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            habitTime.widthAnchor.constraint(equalTo: habitName.widthAnchor),
+            habitTime.leadingAnchor.constraint(equalTo: clikableContainer.leadingAnchor, constant: 20),
+            habitTime.widthAnchor.constraint(equalTo: clikableContainer.widthAnchor),
             habitTime.heightAnchor.constraint(equalToConstant: 16),
             
             habitCounter.topAnchor.constraint(lessThanOrEqualTo: habitTime.bottomAnchor, constant: 30),
-            habitCounter.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            habitCounter.leadingAnchor.constraint(equalTo: clikableContainer.leadingAnchor, constant: 20),
             habitCounter.widthAnchor.constraint(equalToConstant: 188),
             habitCounter.heightAnchor.constraint(equalToConstant: 18),
-            habitCounter.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            habitCounter.bottomAnchor.constraint(equalTo: clikableContainer.bottomAnchor, constant: -20),
             
             trackMarker.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             trackMarker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25),
@@ -100,25 +112,27 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         setupLayouts()
         addTarget()
     }
-   
+    
     
     private func addTarget() {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapOnLabel))
-        habitName.isUserInteractionEnabled = true
-        habitName.addGestureRecognizer(gesture)
+        clikableContainer.isUserInteractionEnabled = true
+        clikableContainer.addGestureRecognizer(gesture)
     }
     
     func setup(with habit: Habit) {
-        
+        self.habit = habit
         habitName.text = habit.name
         habitName.textColor = habit.color
         habitTime.text = habit.dateString
-        habitCounter.text = "Счетчик: \(habit.trackDates.count)"
         trackMarker.layer.borderColor = habit.color.cgColor
         trackMarker.tintColor = habit.color
+        habitCounter.text = "Счетчик: \(habit.trackDates.count)"
+        if habit.isAlreadyTakenToday {
+            trackMarker.isSelected = true
+        }
+        
     }
-    
-    
     
     @objc
     private func tapOnLabel() {
@@ -128,12 +142,15 @@ final class HabitCollectionViewCell: UICollectionViewCell {
     @objc
     private func trackHabit() {
         
-        trackMarker.isSelected.toggle()
-        trackMarker.setBackgroundImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
-        
-        if let habit = habit {
-            HabitsStore.shared.track(habit)
-            
+        if let habit = self.habit {
+            if trackMarker.isSelected == true {
+                print("Привычку можно отметить один раз за день")
+            } else {
+                trackMarker.isSelected = true
+                HabitsStore.shared.track(habit)
+                habitCounter.text = "Счетчик: \(habit.trackDates.count)"
+                progressCell?.update()
+            }
         }
         
     }
