@@ -125,6 +125,8 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         habitCounter.text = "Счетчик: \(habit.trackDates.count)"
         if habit.isAlreadyTakenToday {
             trackMarker.isSelected = true
+        } else {
+            trackMarker.isSelected = false
         }
         
         
