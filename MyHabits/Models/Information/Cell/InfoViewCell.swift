@@ -1,6 +1,7 @@
 import UIKit
 
 class InfoViewCell: UITableViewCell {
+    
     static let id = "InfoViewCell"
     
     private lazy var textInfo: UILabel = {
@@ -20,16 +21,12 @@ class InfoViewCell: UITableViewCell {
             style: style,
             reuseIdentifier: reuseIdentifier
         )
-        addSubviews()
+        addSubview(textInfo)
         setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func addSubviews() {
-        addSubview(textInfo)
     }
    
     private func setupConstraints() {

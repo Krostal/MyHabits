@@ -1,3 +1,4 @@
+import Foundation
 import UIKit
 
 class ProgressCollectionViewCell: UICollectionViewCell {
@@ -28,6 +29,18 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         progressBar.progressTintColor = UIColor(named: "PurpleColor")
         return progressBar
     }()
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: .zero)
+        
+        setupView()
+        setupSubviews()
+        setupLayouts()
+    }
     
     private func setupView() {
         contentView.backgroundColor = .white
@@ -61,20 +74,8 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: .zero)
-        
-        setupView()
-        setupSubviews()
-        setupLayouts()
-    }
-    
     func update() {
-        progressLabel.text = HabitsStore.shared.todayProgress.formatted(.percent)
+        progressLabel.text = String(format: "%.2f", HabitsStore.shared.todayProgress*100) + "%"
         progressBar.progress = HabitsStore.shared.todayProgress
         switch progressBar.progress {
         case 1:

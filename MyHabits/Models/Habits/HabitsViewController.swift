@@ -101,6 +101,7 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 12
     }
+    
 }
 
 extension HabitsViewController: UICollectionViewDataSource {
@@ -137,5 +138,4 @@ extension HabitsViewController: UICollectionViewDataSource {
         return cell
     }
     
-
 }

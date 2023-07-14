@@ -4,17 +4,7 @@ final class HabitViewController: UIViewController {
     
     let store = HabitsStore.shared
     var currentHabit: Habit?
-    
-    init(currentHabit: Habit? = nil) {
-        self.currentHabit = currentHabit
-        super .init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        self.currentHabit = Habit(name: "", date: Date(), color: .white)
-        super.init(coder: coder)
-    }
-    
+        
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = true
@@ -30,7 +20,7 @@ final class HabitViewController: UIViewController {
         return contentView
     }()
     
-    lazy var deleteButton: UIButton = {
+    private lazy var deleteButton: UIButton = {
         let deleteButton = UIButton()
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.setTitle("Удалить привычку", for: .normal)
@@ -137,6 +127,18 @@ final class HabitViewController: UIViewController {
         
         return timeField
     }()
+    
+    
+    init(currentHabit: Habit? = nil) {
+        self.currentHabit = currentHabit
+        super .init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        self.currentHabit = Habit(name: "", date: Date(), color: .white)
+        super.init(coder: coder)
+    }
+    
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -151,7 +153,6 @@ final class HabitViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupKeyboardObservers()
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -245,7 +246,6 @@ final class HabitViewController: UIViewController {
             deleteButton.heightAnchor.constraint(equalToConstant: 22),
             deleteButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             deleteButton.heightAnchor.constraint(equalToConstant: 22),
-            
             ])
         
         deleteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
@@ -348,7 +348,7 @@ final class HabitViewController: UIViewController {
         
     }
     
-    @objc func save(_ sender: UIBarButtonItem) {
+    @objc private func save(_ sender: UIBarButtonItem) {
 
         let newHabit = Habit(name: habitName.text ?? "Error!",
                              date: datePicker.date,
@@ -382,18 +382,18 @@ final class HabitViewController: UIViewController {
         }
     }
     
-    @objc func cancelAndBack(_ sender: UIBarButtonItem) {
+    @objc private func cancelAndBack(_ sender: UIBarButtonItem) {
             dismiss(animated: true)
     }
     
-    @objc func colorPickerPressed(_ sender: UIButton) {
+    @objc private func colorPickerPressed(_ sender: UIButton) {
         let picker = UIColorPickerViewController()
         picker.selectedColor = self.colorPicker.backgroundColor!
         picker.delegate = self
         self.present(picker, animated: true)
     }
     
-    @objc func deleteThisHabit(_ sender: UIButton) {
+    @objc private func deleteThisHabit(_ sender: UIButton) {
         showAlert()
     }
     

@@ -5,19 +5,9 @@ final class HabitDetailsViewController: UIViewController {
     let habit: Habit
     let store = HabitsStore.shared
     
-    var dates: [Date] {
+    private var dates: [Date] {
         let sortedDates = store.dates.sorted(by: >)
         return sortedDates
-    }
-    
-    init(habit: Habit) {
-        self.habit = habit
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        self.habit = Habit(name: String(), date: Date(), color: UIColor())
-            super.init(coder: coder)
     }
     
     private lazy var tableView: UITableView = {
@@ -50,6 +40,17 @@ final class HabitDetailsViewController: UIViewController {
     }
     
     
+    init(habit: Habit) {
+        self.habit = habit
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        self.habit = Habit(name: String(), date: Date(), color: UIColor())
+            super.init(coder: coder)
+    }
+    
+    
     private func setupConstraints() {
         
         let safeAreaGuide = view.safeAreaLayoutGuide
@@ -71,7 +72,7 @@ final class HabitDetailsViewController: UIViewController {
         
     }
     
-    @objc func edit() {
+    @objc private func edit() {
         let habitVC = HabitViewController(currentHabit: habit)
         let habitNavigationController = UINavigationController(rootViewController: habitVC)
         present(habitNavigationController, animated: true)
@@ -80,6 +81,7 @@ final class HabitDetailsViewController: UIViewController {
 }
 
 extension HabitDetailsViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dates.count
     }

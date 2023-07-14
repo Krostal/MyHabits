@@ -9,7 +9,6 @@ class TabBarController: UITabBarController {
         super.viewDidLoad()
         view.tintColor = UIColor(named: "PurpleColor")
         setupUI()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -28,7 +27,6 @@ class TabBarController: UITabBarController {
         
         habitsTabNavigationController.tabBarItem = item1
         infoTabNavigationController.tabBarItem = item2
-
     }
     
 }

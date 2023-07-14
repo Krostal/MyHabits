@@ -20,6 +20,10 @@ class HeaderForSection: UIView {
         setupConstraints()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func setupConstraints() {
         
         let safeAreaGuide = safeAreaLayoutGuide
@@ -29,13 +33,8 @@ class HeaderForSection: UIView {
             headerForInfoView.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor, constant: 12),
             headerForInfoView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor, constant: 16),
             headerForInfoView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor, constant: 16)
-            
         ])
     }
             
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 

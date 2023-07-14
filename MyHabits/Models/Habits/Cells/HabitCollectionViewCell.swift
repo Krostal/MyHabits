@@ -13,7 +13,7 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         return container
     }()
     
-    lazy var habitName: UILabel = {
+    private lazy var habitName: UILabel = {
         let habitName = UILabel()
         habitName.translatesAutoresizingMaskIntoConstraints = false
         habitName.numberOfLines = 2
@@ -50,6 +50,21 @@ final class HabitCollectionViewCell: UICollectionViewCell {
     }()
     
     var onLabelTapped: Action?
+    
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: .zero)
+        
+        setupView()
+        setupSubviews()
+        setupLayouts()
+        addTarget()
+    }
+    
     
     private func setupView() {
         contentView.backgroundColor = .white
@@ -93,20 +108,6 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: .zero)
-        
-        setupView()
-        setupSubviews()
-        setupLayouts()
-        addTarget()
-    }
-    
-    
     private func addTarget() {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapOnLabel))
         clikableContainer.isUserInteractionEnabled = true
@@ -128,17 +129,13 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         } else {
             trackMarker.isSelected = false
         }
-        
-        
     }
     
-    @objc
-    private func tapOnLabel() {
+    @objc private func tapOnLabel() {
         onLabelTapped?()
     }
     
-    @objc
-    private func trackHabit() {
+    @objc private func trackHabit() {
         
         if let habit = self.habit {
             if trackMarker.isSelected == false {
