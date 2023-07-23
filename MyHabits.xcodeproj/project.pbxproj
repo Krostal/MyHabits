@@ -20,10 +20,8 @@
 		09D35C452A58309900B7C887 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D35C442A58309900B7C887 /* TabBarController.swift */; };
 		09D35C4B2A58338C00B7C887 /* HabitsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D35C4A2A58338C00B7C887 /* HabitsViewController.swift */; };
 		09D35C4D2A58339D00B7C887 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D35C4C2A58339D00B7C887 /* InfoViewController.swift */; };
-		09D35C502A58341100B7C887 /* InfoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D35C4F2A58341100B7C887 /* InfoViewCell.swift */; };
-		09D35C522A58341E00B7C887 /* HeaderForSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D35C512A58341E00B7C887 /* HeaderForSection.swift */; };
 		09D35C552A58347600B7C887 /* HabitsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D35C542A58347600B7C887 /* HabitsStore.swift */; };
-		09D35C572A5834D100B7C887 /* Information.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D35C562A5834D100B7C887 /* Information.swift */; };
+		09D35C572A5834D100B7C887 /* InformationText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D35C562A5834D100B7C887 /* InformationText.swift */; };
 		09D35C592A583B7200B7C887 /* HabitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D35C582A583B7200B7C887 /* HabitViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -43,10 +41,8 @@
 		09D35C442A58309900B7C887 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		09D35C4A2A58338C00B7C887 /* HabitsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsViewController.swift; sourceTree = "<group>"; };
 		09D35C4C2A58339D00B7C887 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
-		09D35C4F2A58341100B7C887 /* InfoViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewCell.swift; sourceTree = "<group>"; };
-		09D35C512A58341E00B7C887 /* HeaderForSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderForSection.swift; sourceTree = "<group>"; };
 		09D35C542A58347600B7C887 /* HabitsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsStore.swift; sourceTree = "<group>"; };
-		09D35C562A5834D100B7C887 /* Information.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Information.swift; sourceTree = "<group>"; };
+		09D35C562A5834D100B7C887 /* InformationText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationText.swift; sourceTree = "<group>"; };
 		09D35C582A583B7200B7C887 /* HabitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -157,25 +153,15 @@
 			isa = PBXGroup;
 			children = (
 				09D35C4C2A58339D00B7C887 /* InfoViewController.swift */,
-				09D35C4E2A5833F700B7C887 /* Cell */,
 			);
 			path = Information;
-			sourceTree = "<group>";
-		};
-		09D35C4E2A5833F700B7C887 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				09D35C4F2A58341100B7C887 /* InfoViewCell.swift */,
-				09D35C512A58341E00B7C887 /* HeaderForSection.swift */,
-			);
-			path = Cell;
 			sourceTree = "<group>";
 		};
 		09D35C532A58345600B7C887 /* CommonData */ = {
 			isa = PBXGroup;
 			children = (
 				09D35C542A58347600B7C887 /* HabitsStore.swift */,
-				09D35C562A5834D100B7C887 /* Information.swift */,
+				09D35C562A5834D100B7C887 /* InformationText.swift */,
 				0920E6FF2A59976200929CCF /* Reusable.swift */,
 				097251C02A6017340001A18D /* bugs.swift */,
 			);
@@ -262,15 +248,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0920E7002A59976200929CCF /* Reusable.swift in Sources */,
-				09D35C572A5834D100B7C887 /* Information.swift in Sources */,
-				09D35C502A58341100B7C887 /* InfoViewCell.swift in Sources */,
+				09D35C572A5834D100B7C887 /* InformationText.swift in Sources */,
 				09D35C452A58309900B7C887 /* TabBarController.swift in Sources */,
 				097251C12A6017340001A18D /* bugs.swift in Sources */,
 				09D35C302A5829CD00B7C887 /* AppDelegate.swift in Sources */,
 				09D35C322A5829CD00B7C887 /* SceneDelegate.swift in Sources */,
 				0920E6FE2A59971D00929CCF /* ProgressCollectionViewCell.swift in Sources */,
 				09D35C552A58347600B7C887 /* HabitsStore.swift in Sources */,
-				09D35C522A58341E00B7C887 /* HeaderForSection.swift in Sources */,
 				0920E7092A5AE60600929CCF /* HabitDetailsViewControllerCell.swift in Sources */,
 				09D35C592A583B7200B7C887 /* HabitViewController.swift in Sources */,
 				0920E7042A5AE35400929CCF /* HabitDetailsViewController.swift in Sources */,
