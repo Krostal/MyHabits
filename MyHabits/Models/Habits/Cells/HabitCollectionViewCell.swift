@@ -5,7 +5,8 @@ typealias Action = () -> Void?
 final class HabitCollectionViewCell: UICollectionViewCell {
     
     var habit: Habit?
-    var progressCell: ProgressCollectionViewCell?
+    
+    var onLabelTapped: Action?
     
     private lazy var clikableContainer: UIView = {
         let container = UIView()
@@ -49,9 +50,6 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         return trackMarker
     }()
     
-    var onLabelTapped: Action?
-    
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -82,6 +80,7 @@ final class HabitCollectionViewCell: UICollectionViewCell {
     
     private func setupLayouts() {
         NSLayoutConstraint.activate([
+            
             clikableContainer.topAnchor.constraint(equalTo: contentView.topAnchor),
             clikableContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             clikableContainer.widthAnchor.constraint(equalToConstant: 220),
@@ -114,9 +113,8 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         clikableContainer.addGestureRecognizer(gesture)
     }
     
-    func setup(with habit: Habit, progressCell: ProgressCollectionViewCell) {
+    func setup(with habit: Habit) {
         self.habit = habit
-        self.progressCell = progressCell
         
         habitName.text = habit.name
         habitName.textColor = habit.color
@@ -138,14 +136,11 @@ final class HabitCollectionViewCell: UICollectionViewCell {
     @objc private func trackHabit() {
         
         if let habit = self.habit {
-            if trackMarker.isSelected == false {
+            if !trackMarker.isSelected {
                 trackMarker.isSelected = true
                 HabitsStore.shared.track(habit)
                 habitCounter.text = "Счетчик: \(habit.trackDates.count)"
             }
-        }
-        if let progressCell = self.progressCell {
-            progressCell.update()
         }
     }
     

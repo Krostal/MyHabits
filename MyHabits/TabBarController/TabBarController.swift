@@ -1,6 +1,6 @@
 import UIKit
 
-class TabBarController: UITabBarController {
+final class TabBarController: UITabBarController {
     
     private var habitsTabNavigationController: UINavigationController!
     private var infoTabNavigationController: UINavigationController!

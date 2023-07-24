@@ -69,8 +69,7 @@
 		0920E7052A5AE36800929CCF /* Editing */ = {
 			isa = PBXGroup;
 			children = (
-				0920E7062A5AE5EA00929CCF /* Cell */,
-				0920E7032A5AE35400929CCF /* HabitDetailsViewController.swift */,
+				09D35C582A583B7200B7C887 /* HabitViewController.swift */,
 			);
 			path = Editing;
 			sourceTree = "<group>";
@@ -171,7 +170,8 @@
 		09D35C5F2A5955FB00B7C887 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				09D35C582A583B7200B7C887 /* HabitViewController.swift */,
+				0920E7032A5AE35400929CCF /* HabitDetailsViewController.swift */,
+				0920E7062A5AE5EA00929CCF /* Cell */,
 				0920E7052A5AE36800929CCF /* Editing */,
 			);
 			path = Detail;

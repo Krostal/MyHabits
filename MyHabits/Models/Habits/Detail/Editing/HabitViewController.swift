@@ -128,6 +128,7 @@ final class HabitViewController: UIViewController {
         return timeField
     }()
     
+    var timer: Timer?
     
     init(currentHabit: Habit? = nil) {
         self.currentHabit = currentHabit
@@ -319,17 +320,20 @@ final class HabitViewController: UIViewController {
     }
     
     private func infoAlert() {
-        
-        let alert = UIAlertController(title: "Введите имя привычки", message: "", preferredStyle: .actionSheet)
-        
-        DispatchQueue.main.async {
-            self.present(alert, animated: true, completion: nil)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-            alert.dismiss(animated: true)
-        }
-        
+        let alert = UIAlertController(title: "Введите имя привычки", message: "", preferredStyle: .alert)
+        self.present(alert, animated: true, completion: nil)
+        let timer = Timer(timeInterval: 1.0, target: self, selector: #selector(dismissInfoAlert), userInfo: ["alert": alert], repeats: false)
+        RunLoop.current.add(timer, forMode: .common)
+        self.timer = timer
+    }
+    
+    @objc func dismissInfoAlert(timer: Timer) {
+        guard
+            let userInfo = timer.userInfo as? [String: Any],
+            let alert = userInfo["alert"] as? UIAlertController
+        else { return }
+        alert.dismiss(animated: true)
+                
     }
     
     @objc func setTime() {
@@ -356,7 +360,7 @@ final class HabitViewController: UIViewController {
         )
         
         if deleteButton.isHidden == true {
-            if newHabit.name == "" {
+            if newHabit.name.isEmpty {
                 infoAlert()
             } else {
                 store.habits.append(newHabit)
@@ -368,7 +372,7 @@ final class HabitViewController: UIViewController {
                 let indexOfHabitInStore = store.habits.firstIndex(of: currentHabit)
                 if indexOfHabitInStore != nil {
                     
-                    if newHabit.name == "" {
+                    if newHabit.name.isEmpty {
                         infoAlert()
                     } else {
                         store.habits[indexOfHabitInStore!].name = newHabit.name

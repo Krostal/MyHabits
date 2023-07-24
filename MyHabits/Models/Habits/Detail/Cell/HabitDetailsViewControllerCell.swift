@@ -1,6 +1,6 @@
 import UIKit
 
-class HabitDetailsViewControllerCell: UITableViewCell {
+final class HabitDetailsViewControllerCell: UITableViewCell {
     
     static let id = "HabitDetailsViewControllerCell"
     

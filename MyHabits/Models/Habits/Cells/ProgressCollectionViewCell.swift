@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class ProgressCollectionViewCell: UICollectionViewCell {
+final class ProgressCollectionViewCell: UICollectionViewCell {
     
     var habit: Habit?
     
@@ -74,16 +74,14 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func update() {
+    func updateProgress() {
         progressLabel.text = String(format: "%.2f", HabitsStore.shared.todayProgress*100) + "%"
         progressBar.progress = HabitsStore.shared.todayProgress
-        switch progressBar.progress {
-        case 1:
+        if progressBar.progress == 1 {
             motivationLabel.text = "Ты молодец! Так держать!"
-        default:
+        } else {
             motivationLabel.text = "У тебя получится!"
         }
-
     }
 
 }
