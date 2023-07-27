@@ -2,6 +2,11 @@ import UIKit
 
 final class HabitDetailsViewControllerCell: UITableViewCell {
     
+    private enum Constants {
+        static let horizontalPadding: CGFloat = 16.0
+        static let verticalSpacing: CGFloat = 11.0
+    }
+    
     static let id = "HabitDetailsViewControllerCell"
     
     private lazy var calendar: Calendar = Calendar.current
@@ -47,10 +52,10 @@ final class HabitDetailsViewControllerCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             
-            dateLabel.topAnchor.constraint(equalTo: topAnchor, constant: 11),
-            dateLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            dateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            dateLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -11)
+            dateLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.verticalSpacing),
+            dateLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.horizontalPadding),
+            dateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.horizontalPadding),
+            dateLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.verticalSpacing)
         ])
     }
     

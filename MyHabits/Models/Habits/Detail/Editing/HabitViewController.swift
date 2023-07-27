@@ -2,8 +2,27 @@ import UIKit
 
 final class HabitViewController: UIViewController {
     
+    private enum Constants {
+        static let titleHeight: CGFloat = 18.0
+        static let contentHeight: CGFloat = 22.0
+        static let horizontalPadding: CGFloat = 16.0
+        static let colorPickerheight: CGFloat = 30
+        static let titleTopSpacing: CGFloat = 15.0
+        static let contentTopSpacing: CGFloat = 7.0
+        static let titleTextSize: CGFloat = 13.0
+        static let contentTextSize: CGFloat = 17.0
+    }
+    
     let store = HabitsStore.shared
     var currentHabit: Habit?
+    
+    var changeTitleClosure: (() -> Void)?
+    
+    var addNewHabit: ((Habit) -> Void)?
+    
+    var updateHabit: ((Habit) -> Void)?
+    
+    var deleteHabit: ((Habit) -> Void)?
         
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -25,7 +44,7 @@ final class HabitViewController: UIViewController {
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.setTitle("Удалить привычку", for: .normal)
         deleteButton.setTitleColor(.systemRed, for: .normal)
-        deleteButton.titleLabel?.font = .systemFont(ofSize: 17, weight: .regular)
+        deleteButton.titleLabel?.font = .systemFont(ofSize: Constants.contentTextSize, weight: .regular)
         deleteButton.addTarget(self, action: #selector(deleteThisHabit(_:)), for: .touchUpInside)
         return deleteButton
     }()
@@ -35,7 +54,7 @@ final class HabitViewController: UIViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.text = "НАЗВАНИЕ"
         titleLabel.textColor = .black
-        titleLabel.font = .systemFont(ofSize: 13, weight: .semibold)
+        titleLabel.font = .systemFont(ofSize: Constants.titleTextSize, weight: .semibold)
         
         return titleLabel
     }()
@@ -45,7 +64,7 @@ final class HabitViewController: UIViewController {
         habitName.translatesAutoresizingMaskIntoConstraints = false
         habitName.placeholder = "Бегать по утрам, спать 8 часов и т.п."
         habitName.textColor = .black
-        habitName.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        habitName.font = UIFont.systemFont(ofSize: Constants.contentTextSize, weight: .regular)
         habitName.autocapitalizationType = .none
         habitName.autocorrectionType = UITextAutocorrectionType.no
         habitName.keyboardType = UIKeyboardType.default
@@ -61,7 +80,7 @@ final class HabitViewController: UIViewController {
         colorTitle.translatesAutoresizingMaskIntoConstraints = false
         colorTitle.text = "ЦВЕТ"
         colorTitle.textColor = .black
-        colorTitle.font = .systemFont(ofSize: 13, weight: .semibold)
+        colorTitle.font = .systemFont(ofSize: Constants.titleTextSize, weight: .semibold)
         
         return colorTitle
     }()
@@ -82,7 +101,7 @@ final class HabitViewController: UIViewController {
         timeTitle.translatesAutoresizingMaskIntoConstraints = false
         timeTitle.text = "ВРЕМЯ"
         timeTitle.textColor = .black
-        timeTitle.font = .systemFont(ofSize: 13, weight: .semibold)
+        timeTitle.font = .systemFont(ofSize: Constants.titleTextSize, weight: .semibold)
         
         return timeTitle
     }()
@@ -113,7 +132,7 @@ final class HabitViewController: UIViewController {
         dayField.translatesAutoresizingMaskIntoConstraints = false
         dayField.text = "Каждый день в "
         dayField.textColor = .black
-        dayField.font = .systemFont(ofSize: 17, weight: .regular)
+        dayField.font = .systemFont(ofSize: Constants.contentTextSize, weight: .regular)
         
         return dayField
     }()
@@ -123,7 +142,7 @@ final class HabitViewController: UIViewController {
         timeField.translatesAutoresizingMaskIntoConstraints = false
         timeField.placeholder = "укажи время"
         timeField.textColor = UIColor(named: "PurpleColor")
-        timeField.font = .systemFont(ofSize: 17, weight: .regular)
+        timeField.font = .systemFont(ofSize: Constants.contentTextSize, weight: .regular)
         
         return timeField
     }()
@@ -210,43 +229,42 @@ final class HabitViewController: UIViewController {
         NSLayoutConstraint.activate([
             
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 21),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.horizontalPadding),
             titleLabel.widthAnchor.constraint(equalToConstant: 74),
-            titleLabel.heightAnchor.constraint(equalToConstant: 18),
+            titleLabel.heightAnchor.constraint(equalToConstant: Constants.titleHeight),
             
-            habitName.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 7),
-            habitName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            habitName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            habitName.heightAnchor.constraint(equalToConstant: 22),
+            habitName.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Constants.contentTopSpacing),
+            habitName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.horizontalPadding),
+            habitName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.horizontalPadding),
+            habitName.heightAnchor.constraint(equalToConstant: Constants.contentHeight),
             
-            colorTitle.topAnchor.constraint(equalTo: habitName.bottomAnchor, constant: 15),
-            colorTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            colorTitle.topAnchor.constraint(equalTo: habitName.bottomAnchor, constant: Constants.titleTopSpacing),
+            colorTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.horizontalPadding),
             colorTitle.widthAnchor.constraint(equalToConstant: 36),
-            colorTitle.heightAnchor.constraint(equalToConstant: 18),
+            colorTitle.heightAnchor.constraint(equalToConstant: Constants.titleHeight),
             
-            colorPicker.topAnchor.constraint(equalTo: colorTitle.bottomAnchor, constant: 7),
-            colorPicker.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            colorPicker.widthAnchor.constraint(equalToConstant: 30),
-            colorPicker.heightAnchor.constraint(equalToConstant: 30),
+            colorPicker.topAnchor.constraint(equalTo: colorTitle.bottomAnchor, constant: Constants.contentTopSpacing),
+            colorPicker.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.horizontalPadding),
+            colorPicker.widthAnchor.constraint(equalToConstant: Constants.colorPickerheight),
+            colorPicker.heightAnchor.constraint(equalToConstant: Constants.colorPickerheight),
             
-            timeTitle.topAnchor.constraint(equalTo: colorPicker.bottomAnchor, constant: 15),
-            timeTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            timeTitle.topAnchor.constraint(equalTo: colorPicker.bottomAnchor, constant: Constants.titleTopSpacing),
+            timeTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.horizontalPadding),
             timeTitle.widthAnchor.constraint(equalToConstant: 47),
-            timeTitle.heightAnchor.constraint(equalToConstant: 18),
+            timeTitle.heightAnchor.constraint(equalToConstant: Constants.titleHeight),
             
-            dayAndTimeField.topAnchor.constraint(equalTo: timeTitle.bottomAnchor, constant: 7),
-            dayAndTimeField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            dayAndTimeField.topAnchor.constraint(equalTo: timeTitle.bottomAnchor, constant: Constants.contentTopSpacing),
+            dayAndTimeField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.horizontalPadding),
             dayAndTimeField.widthAnchor.constraint(equalTo: contentView.widthAnchor),
-            dayAndTimeField.heightAnchor.constraint(equalToConstant: 22),
+            dayAndTimeField.heightAnchor.constraint(equalToConstant: Constants.contentHeight),
             
-            datePicker.topAnchor.constraint(equalTo: timeField.bottomAnchor, constant: 15),
-            datePicker.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            datePicker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            datePicker.topAnchor.constraint(equalTo: timeField.bottomAnchor, constant: Constants.titleTopSpacing),
+            datePicker.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.horizontalPadding),
+            datePicker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.horizontalPadding),
             datePicker.heightAnchor.constraint(equalToConstant: 216),
             
-            deleteButton.heightAnchor.constraint(equalToConstant: 22),
+            deleteButton.heightAnchor.constraint(equalToConstant: Constants.contentHeight),
             deleteButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            deleteButton.heightAnchor.constraint(equalToConstant: 22),
             ])
         
         deleteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
@@ -296,16 +314,11 @@ final class HabitViewController: UIViewController {
             preferredStyle: .alert
         )
         alert.addAction(UIAlertAction(title: "Удалить", style: .destructive, handler: { [weak self] action in
-            if let currentHabit = self?.currentHabit {
-                let indexOfHabitInStore = self?.store.habits.firstIndex(of: currentHabit)
-                if indexOfHabitInStore != nil {
-                    self?.store.habits.remove(at: indexOfHabitInStore!)
-                    self?.store.save()
-                    
-                    if let habitsVC = self?.presentingViewController as? UITabBarController {
-                        if let navigationVC = habitsVC.viewControllers?.first as? UINavigationController {
-                            navigationVC.popToRootViewController(animated: true)
-                        }
+            if let deletedHabit = self?.currentHabit {
+                self?.deleteHabit?(deletedHabit)
+                if let habitsVC = self?.presentingViewController as? UITabBarController {
+                    if let navigationVC = habitsVC.viewControllers?.first as? UINavigationController {
+                        navigationVC.popToRootViewController(animated: true)
                     }
                 }
             }
@@ -333,7 +346,6 @@ final class HabitViewController: UIViewController {
             let alert = userInfo["alert"] as? UIAlertController
         else { return }
         alert.dismiss(animated: true)
-                
     }
     
     @objc func setTime() {
@@ -353,34 +365,30 @@ final class HabitViewController: UIViewController {
     }
     
     @objc private func save(_ sender: UIBarButtonItem) {
-
+        
         let newHabit = Habit(name: habitName.text ?? "Error!",
                              date: datePicker.date,
                              color: (colorPicker.backgroundColor ?? .systemRed)
         )
         
-        if deleteButton.isHidden == true {
+        if deleteButton.isHidden {
             if newHabit.name.isEmpty {
                 infoAlert()
             } else {
-                store.habits.append(newHabit)
+                addNewHabit?(newHabit)
                 dismiss(animated: true)
             }
             
         } else {
-            if let currentHabit = self.currentHabit {
-                let indexOfHabitInStore = store.habits.firstIndex(of: currentHabit)
-                if indexOfHabitInStore != nil {
-                    
-                    if newHabit.name.isEmpty {
-                        infoAlert()
-                    } else {
-                        store.habits[indexOfHabitInStore!].name = newHabit.name
-                        store.habits[indexOfHabitInStore!].color = newHabit.color
-                        store.habits[indexOfHabitInStore!].date = newHabit.date
-                        store.save()
-                        dismiss(animated: true)
-                    }
+            if let updatedHabit = self.currentHabit {
+                if updatedHabit.name.isEmpty {
+                    infoAlert()
+                } else {
+                    updatedHabit.name = newHabit.name
+                    updatedHabit.color = newHabit.color
+                    updatedHabit.date = newHabit.date
+                    updateHabit?(updatedHabit)
+                    dismiss(animated: true, completion: changeTitleClosure)
                 }
             }
         }
@@ -392,7 +400,7 @@ final class HabitViewController: UIViewController {
     
     @objc private func colorPickerPressed(_ sender: UIButton) {
         let picker = UIColorPickerViewController()
-        picker.selectedColor = self.colorPicker.backgroundColor!
+        picker.selectedColor = self.colorPicker.backgroundColor ?? .white
         picker.delegate = self
         self.present(picker, animated: true)
     }

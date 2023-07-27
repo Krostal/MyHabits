@@ -2,8 +2,12 @@ import UIKit
 
 final class HabitDetailsViewController: UIViewController {
     
-    let habit: Habit
+    var habit: Habit
     let store = HabitsStore.shared
+    
+    var updateHabit: ((Habit) -> Void)?
+    
+    var deleteHabit: ((Habit) -> Void)?
     
     private var dates: [Date] {
         let sortedDates = store.dates.sorted(by: >)
@@ -30,7 +34,6 @@ final class HabitDetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
         self.navigationItem.title = habit.name
     }
     
@@ -74,6 +77,19 @@ final class HabitDetailsViewController: UIViewController {
     
     @objc private func edit() {
         let habitVC = HabitViewController(currentHabit: habit)
+        habitVC.changeTitleClosure = {
+            self.title = habitVC.currentHabit?.name
+        }
+        
+        habitVC.updateHabit = { [weak self] updatedHabit in
+            self?.updateHabit?(updatedHabit)
+            print(updatedHabit.name)
+        }
+        
+        habitVC.deleteHabit = { [weak self] habit in
+            self?.deleteHabit?(habit)
+        }
+        
         let habitNavigationController = UINavigationController(rootViewController: habitVC)
         present(habitNavigationController, animated: true)
     }
@@ -91,7 +107,7 @@ extension HabitDetailsViewController: UITableViewDelegate, UITableViewDataSource
             return UITableViewCell()
         }
         cell.configure(dates[indexPath.row])
-        if store.habit(self.habit, isTrackedIn: dates[indexPath.row]) == true {
+        if store.habit(self.habit, isTrackedIn: dates[indexPath.row]) {
             cell.accessoryType = .checkmark
         }
         return cell

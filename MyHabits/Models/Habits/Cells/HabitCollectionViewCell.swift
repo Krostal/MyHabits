@@ -2,11 +2,21 @@ import UIKit
 
 typealias Action = () -> Void?
 
+protocol HabitCellDelegate: AnyObject {
+    func updateProgressCell()
+}
+
 final class HabitCollectionViewCell: UICollectionViewCell {
+    
+    private enum Constants {
+        static let spacing: CGFloat = 20.0
+    }
     
     var habit: Habit?
     
     var onLabelTapped: Action?
+    
+    weak var delegate: HabitCellDelegate?
     
     private lazy var clikableContainer: UIView = {
         let container = UIView()
@@ -85,20 +95,20 @@ final class HabitCollectionViewCell: UICollectionViewCell {
             clikableContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             clikableContainer.widthAnchor.constraint(equalToConstant: 220),
             
-            habitName.topAnchor.constraint(equalTo: clikableContainer.topAnchor, constant: 20),
-            habitName.leadingAnchor.constraint(equalTo: clikableContainer.leadingAnchor, constant: 20),
+            habitName.topAnchor.constraint(equalTo: clikableContainer.topAnchor, constant: Constants.spacing),
+            habitName.leadingAnchor.constraint(equalTo: clikableContainer.leadingAnchor, constant: Constants.spacing),
             habitName.widthAnchor.constraint(equalTo: clikableContainer.widthAnchor),
             
             habitTime.topAnchor.constraint(equalTo: habitName.bottomAnchor, constant: 4),
-            habitTime.leadingAnchor.constraint(equalTo: clikableContainer.leadingAnchor, constant: 20),
+            habitTime.leadingAnchor.constraint(equalTo: clikableContainer.leadingAnchor, constant: Constants.spacing),
             habitTime.widthAnchor.constraint(equalTo: clikableContainer.widthAnchor),
             habitTime.heightAnchor.constraint(equalToConstant: 16),
             
             habitCounter.topAnchor.constraint(lessThanOrEqualTo: habitTime.bottomAnchor, constant: 30),
-            habitCounter.leadingAnchor.constraint(equalTo: clikableContainer.leadingAnchor, constant: 20),
+            habitCounter.leadingAnchor.constraint(equalTo: clikableContainer.leadingAnchor, constant: Constants.spacing),
             habitCounter.widthAnchor.constraint(equalToConstant: 188),
             habitCounter.heightAnchor.constraint(equalToConstant: 18),
-            habitCounter.bottomAnchor.constraint(equalTo: clikableContainer.bottomAnchor, constant: -20),
+            habitCounter.bottomAnchor.constraint(equalTo: clikableContainer.bottomAnchor, constant: -Constants.spacing),
             
             trackMarker.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             trackMarker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25),
@@ -140,6 +150,7 @@ final class HabitCollectionViewCell: UICollectionViewCell {
                 trackMarker.isSelected = true
                 HabitsStore.shared.track(habit)
                 habitCounter.text = "Счетчик: \(habit.trackDates.count)"
+                delegate?.updateProgressCell()
             }
         }
     }

@@ -12,7 +12,6 @@
 		0920E7022A599A9300929CCF /* HabitCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0920E7012A599A9300929CCF /* HabitCollectionViewCell.swift */; };
 		0920E7042A5AE35400929CCF /* HabitDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0920E7032A5AE35400929CCF /* HabitDetailsViewController.swift */; };
 		0920E7092A5AE60600929CCF /* HabitDetailsViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0920E7082A5AE60600929CCF /* HabitDetailsViewControllerCell.swift */; };
-		097251C12A6017340001A18D /* bugs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097251C02A6017340001A18D /* bugs.swift */; };
 		09D35C302A5829CD00B7C887 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D35C2F2A5829CD00B7C887 /* AppDelegate.swift */; };
 		09D35C322A5829CD00B7C887 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D35C312A5829CD00B7C887 /* SceneDelegate.swift */; };
 		09D35C392A5829CD00B7C887 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09D35C382A5829CD00B7C887 /* Assets.xcassets */; };
@@ -31,7 +30,6 @@
 		0920E7012A599A9300929CCF /* HabitCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCollectionViewCell.swift; sourceTree = "<group>"; };
 		0920E7032A5AE35400929CCF /* HabitDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailsViewController.swift; sourceTree = "<group>"; };
 		0920E7082A5AE60600929CCF /* HabitDetailsViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailsViewControllerCell.swift; sourceTree = "<group>"; };
-		097251C02A6017340001A18D /* bugs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bugs.swift; sourceTree = "<group>"; };
 		09D35C2C2A5829CD00B7C887 /* MyHabits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyHabits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09D35C2F2A5829CD00B7C887 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		09D35C312A5829CD00B7C887 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -162,7 +160,6 @@
 				09D35C542A58347600B7C887 /* HabitsStore.swift */,
 				09D35C562A5834D100B7C887 /* InformationText.swift */,
 				0920E6FF2A59976200929CCF /* Reusable.swift */,
-				097251C02A6017340001A18D /* bugs.swift */,
 			);
 			path = CommonData;
 			sourceTree = "<group>";
@@ -250,7 +247,6 @@
 				0920E7002A59976200929CCF /* Reusable.swift in Sources */,
 				09D35C572A5834D100B7C887 /* InformationText.swift in Sources */,
 				09D35C452A58309900B7C887 /* TabBarController.swift in Sources */,
-				097251C12A6017340001A18D /* bugs.swift in Sources */,
 				09D35C302A5829CD00B7C887 /* AppDelegate.swift in Sources */,
 				09D35C322A5829CD00B7C887 /* SceneDelegate.swift in Sources */,
 				0920E6FE2A59971D00929CCF /* ProgressCollectionViewCell.swift in Sources */,

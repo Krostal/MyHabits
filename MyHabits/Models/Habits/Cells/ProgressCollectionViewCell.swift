@@ -3,12 +3,18 @@ import UIKit
 
 final class ProgressCollectionViewCell: UICollectionViewCell {
     
+    private enum Constants {
+        static let verticalSpacing: CGFloat = 10.0
+        static let horizontalSpacing: CGFloat = 12.0
+        static let textSize: CGFloat = 13.0
+    }
+    
     var habit: Habit?
     
     private lazy var motivationLabel: UILabel = {
         let motivationLabel = UILabel()
         motivationLabel.translatesAutoresizingMaskIntoConstraints = false
-        motivationLabel.font = .systemFont(ofSize: 13, weight: .semibold)
+        motivationLabel.font = .systemFont(ofSize: Constants.textSize, weight: .semibold)
         motivationLabel.textColor = .systemGray
         return motivationLabel
     }()
@@ -16,7 +22,7 @@ final class ProgressCollectionViewCell: UICollectionViewCell {
     private lazy var progressLabel: UILabel = {
         let progressLabel = UILabel()
         progressLabel.translatesAutoresizingMaskIntoConstraints = false
-        progressLabel.font = .systemFont(ofSize: 13, weight: .semibold)
+        progressLabel.font = .systemFont(ofSize: Constants.textSize, weight: .semibold)
         progressLabel.textColor = .systemGray
         return progressLabel
     }()
@@ -56,18 +62,18 @@ final class ProgressCollectionViewCell: UICollectionViewCell {
     
     private func setupLayouts() {
         NSLayoutConstraint.activate([
-            motivationLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            motivationLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
+            motivationLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.verticalSpacing),
+            motivationLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.horizontalSpacing),
             motivationLabel.widthAnchor.constraint(equalToConstant: 216),
             motivationLabel.heightAnchor.constraint(equalToConstant: 18),
             
             progressLabel.centerYAnchor.constraint(equalTo: motivationLabel.centerYAnchor),
-            progressLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            progressLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.horizontalSpacing),
             progressLabel.heightAnchor.constraint(equalToConstant: 18),
             
-            progressBar.topAnchor.constraint(lessThanOrEqualTo: motivationLabel.bottomAnchor, constant: 10),
-            progressBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            progressBar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            progressBar.topAnchor.constraint(lessThanOrEqualTo: motivationLabel.bottomAnchor, constant: Constants.verticalSpacing),
+            progressBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.horizontalSpacing),
+            progressBar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.horizontalSpacing),
             progressBar.heightAnchor.constraint(equalToConstant: 7),
             progressBar.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
             
