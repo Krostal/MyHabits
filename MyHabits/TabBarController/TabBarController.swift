@@ -1,6 +1,6 @@
 import UIKit
 
-class TabBarController: UITabBarController {
+final class TabBarController: UITabBarController {
     
     private var habitsTabNavigationController: UINavigationController!
     private var infoTabNavigationController: UINavigationController!
@@ -9,7 +9,6 @@ class TabBarController: UITabBarController {
         super.viewDidLoad()
         view.tintColor = UIColor(named: "PurpleColor")
         setupUI()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -23,7 +22,7 @@ class TabBarController: UITabBarController {
         self.viewControllers = [habitsTabNavigationController, infoTabNavigationController]
         
         let item1 = UITabBarItem(title: "Привычки", image: UIImage(named: "habits_tab_icon"), tag: 0)
-        
+
         let item2 = UITabBarItem(title: "Информация", image: UIImage(systemName: "info.circle.fill"), tag: 1)
         
         habitsTabNavigationController.tabBarItem = item1
