@@ -25,14 +25,14 @@ final class InfoViewController: UIViewController {
         let infoText = UILabel()
         infoText.translatesAutoresizingMaskIntoConstraints = false
         infoText.backgroundColor = .clear
-        infoText.text = InformationText().infoTextDescription
+        infoText.text = InformationText.infoTextDescription
         infoText.font = .systemFont(ofSize: 17, weight: .regular)
         infoText.tintColor = .black
         infoText.numberOfLines = 0
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.paragraphSpacing = Constants.verticalSpacing
-        let attributedString = NSAttributedString(string: InformationText().infoTextDescription, attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
+        let attributedString = NSAttributedString(string: InformationText.infoTextDescription, attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
         infoText.attributedText = attributedString
         
         return infoText
@@ -42,7 +42,7 @@ final class InfoViewController: UIViewController {
         let titleLabelText = UILabel()
         titleLabelText.translatesAutoresizingMaskIntoConstraints = false
         titleLabelText.backgroundColor = .clear
-        titleLabelText.text = InformationText().titleLabelText
+        titleLabelText.text = InformationText.titleLabelText
         titleLabelText.font = .systemFont(ofSize: 20, weight: .semibold)
         return titleLabelText
     }()

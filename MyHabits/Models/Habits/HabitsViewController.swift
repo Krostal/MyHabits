@@ -156,7 +156,7 @@ extension HabitsViewController: UICollectionViewDataSource {
             cell.onLabelTapped = { [weak self] in
                 let habitDetailsVC = HabitDetailsViewController(habit: habits)
                 
-                habitDetailsVC.updateHabit = { [weak self] habit in
+                habitDetailsVC.updateHabit = { habit in
                     
                     if let index = HabitsStore.shared.habits.firstIndex(where: { $0 == habit }) {
                         HabitsStore.shared.habits[index] = habit
